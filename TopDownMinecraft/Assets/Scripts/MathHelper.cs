@@ -14,6 +14,19 @@ public struct Point2D
     }
 }
 
+// Same thing here, but 3d. Mainly used to identify where a block
+// is within a chunk
+public struct Point3D
+{
+    public int x, y, z;
+    public Point3D(int x, int y, int z)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+}
+
 public class MathHelper
 {
     public static int NearestPerfectSquare(int n)

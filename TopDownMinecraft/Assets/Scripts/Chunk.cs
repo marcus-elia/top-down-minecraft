@@ -13,24 +13,55 @@ public class Chunk : MonoBehaviour
 
     // The int id of the chunk
     private int id_;
+    private Point2D chunkCoords_;
 
     // Neighboring chunks
-    private Chunk northNeighbor;
-    private Chunk eastNeighbor;
-    private Chunk southNeighbor;
-    private Chunk westNeighbor;
+    private Chunk northNeighbor_;
+    private Chunk eastNeighbor_;
+    private Chunk southNeighbor_;
+    private Chunk westNeighbor_;
 
     private GameObject[,,] blocks = new GameObject[CS, WH, CS];
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-}
+
+    public void EnableChunk(bool input)
+    {
+        for (int i = 0; i < CS; i++)
+        {
+            for (int j = 0; j < WH; j++)
+            {
+                for (int k = 0; k < CS; k++)
+                {
+                    blocks[i, j, k].GetComponent<Block>().EnableRendering(input);
+                }
+            }
+        }
+    }
+
+    // Setters and Initializers
+    public void SetChunkID(int inputID)
+    {
+        id_ = inputID;
+        chunkCoords_ = MathHelper.ChunkIDtoPoint2D(id_);
+        CalculatePosition();
+    }
+
+    private void CalculatePosition()
+    {
+        transform.position = new Vector3(chunkCoords_.x * CS, 0, chunkCoords_.z * CS);
+    }
+
+    public void InitializeBlocks()
+    {
+    }
