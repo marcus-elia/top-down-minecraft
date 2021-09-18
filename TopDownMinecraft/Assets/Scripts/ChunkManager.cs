@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ChunkManager : MonoBehaviour
 {
+    // All chunks reference this
+    public MaterialManager materialManager;
+
     // Start is called before the first frame update
     void Start()
     {

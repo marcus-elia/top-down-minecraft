@@ -7,17 +7,17 @@ public enum BlockType { Grass, Stone, Bedrock };
 public struct BlockProperties
 {
     public BlockType blockType;
-    public Texture tex;
-    public Texture transparentTex;
-    public Texture surfaceTransparentTex;
+    public Material mat;
+    public Material transparentMat;
+    public Material surfaceTransparentMat;
     public bool isBreakable;
 
-    public BlockProperties(BlockType blockType, Texture tex, Texture transparentTex, Texture surfaceTransparentTex, bool isBreakable)
+    public BlockProperties(BlockType blockType, Material mat, Material transparentMat, Material surfaceTransparentMat, bool isBreakable)
     {
         this.blockType = blockType;
-        this.tex = tex;
-        this.transparentTex = transparentTex;
-        this.surfaceTransparentTex = surfaceTransparentTex;
+        this.mat = mat;
+        this.transparentMat = transparentMat;
+        this.surfaceTransparentMat = surfaceTransparentMat;
         this.isBreakable = isBreakable;
     }
 }
@@ -93,29 +93,31 @@ public class Block : MonoBehaviour
         westFace_.layer = LayerMask.NameToLayer("Block Faces");
     }
 
-    public void ApplyTexture(Texture tex)
+    // Functions to change which material is being used
+    public void ApplyMaterial(Material mat)
     {
-        topFace_.GetComponent<Renderer>().material.mainTexture = tex;
-        bottomFace_.GetComponent<Renderer>().material.mainTexture = tex;
-        northFace_.GetComponent<Renderer>().material.mainTexture = tex;
-        southFace_.GetComponent<Renderer>().material.mainTexture = tex;
-        eastFace_.GetComponent<Renderer>().material.mainTexture = tex;
-        westFace_.GetComponent<Renderer>().material.mainTexture = tex;
+        topFace_.GetComponent<Renderer>().material = mat;
+        bottomFace_.GetComponent<Renderer>().material = mat;
+        northFace_.GetComponent<Renderer>().material = mat;
+        southFace_.GetComponent<Renderer>().material = mat;
+        eastFace_.GetComponent<Renderer>().material = mat;
+        westFace_.GetComponent<Renderer>().material = mat;
     }
-    public void ApplyMainTexture()
+    public void ApplyMainMaterial()
     {
-        ApplyTexture(properties_.tex);
+        ApplyMaterial(properties_.mat);
     }
-    public void ApplyTransparentTexture()
+    public void ApplyTransparentMaterial()
     {
-        ApplyTexture(properties_.transparentTex);
-    }
-
-    public void ApplySurfaceTransparentTexture()
-    {
-        ApplyTexture(properties_.surfaceTransparentTex);
+        ApplyMaterial(properties_.transparentMat);
     }
 
+    public void ApplySurfaceTransparentMaterial()
+    {
+        ApplyMaterial(properties_.surfaceTransparentMat);
+    }
+
+    // Setters
     public void SetChunkID(int inputChunkID)
     {
         chunkID_ = inputChunkID;
@@ -124,6 +126,10 @@ public class Block : MonoBehaviour
     public void SetIndexInChunk(int x, int y, int z)
     {
         indexInChunk_ = new Point3D(x, y, z);
+    }
+    public void SetProperties(BlockProperties input)
+    {
+        properties_ = input;
     }
 
     public void EnableRendering(bool input)
